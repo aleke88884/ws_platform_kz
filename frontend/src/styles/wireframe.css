@@ -1,0 +1,61 @@
+/* Каркас без дизайна: серые блоки, чтобы обсуждать структуру экранов, а не цвета */
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --ink: #1d2430;
+  --muted: #667085;
+  --line: #c9ced6;
+  --accent: #2f5fa7;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: var(--accent); }
+
+.shell { min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.brand { font-weight: 700; text-decoration: none; color: var(--ink); }
+.pickers { display: flex; flex-wrap: wrap; gap: 12px; }
+.picker { display: flex; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); }
+
+.body { flex: 1; display: grid; grid-template-columns: 220px 1fr; }
+.sidebar { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-right: 1px solid var(--line); background: var(--surface); }
+.sidebar a { text-decoration: none; color: var(--ink); padding: 6px 10px; border-radius: 6px; }
+.sidebar a.active { background: var(--bg); color: var(--accent); font-weight: 600; }
+.content { padding: 24px; min-width: 0; }
+.public .content { max-width: 720px; margin: 0 auto; width: 100%; }
+.note { padding: 10px 20px; font-size: 13px; color: var(--muted); border-top: 1px dashed var(--line); }
+
+.screen { display: flex; flex-direction: column; gap: 14px; max-width: 960px; }
+.screen-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; }
+.screen-head h1 { margin: 0; font-size: 24px; }
+.req { font-size: 12px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; }
+
+.block { border: 2px dashed var(--line); border-radius: 8px; padding: 14px; min-height: 64px; display: flex; flex-direction: column; gap: 8px; background: var(--surface); flex: 1; min-width: 0; }
+.block.tall { min-height: 160px; }
+.block-label { font-size: 13px; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 14px; max-width: 420px; }
+.field input { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+.field.check { flex-direction: row; align-items: flex-start; gap: 8px; max-width: 560px; }
+
+.btn { display: inline-block; padding: 8px 16px; border: 1px solid var(--ink); border-radius: 6px; background: var(--surface); color: var(--ink); text-decoration: none; font: inherit; cursor: pointer; }
+.btn:hover, .btn:focus-visible { border-color: var(--accent); color: var(--accent); }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; font-size: 13px; background: var(--surface); }
+.planned { margin: 0; padding: 10px 12px; border-left: 3px solid var(--accent); background: var(--surface); font-size: 14px; color: var(--muted); }
+
+.bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.bars li { display: grid; grid-template-columns: 160px 1fr; gap: 10px; align-items: center; font-size: 14px; }
+.bars i { height: 10px; border-radius: 5px; background: var(--line); }
+
+.wire-table { border-collapse: collapse; background: var(--surface); width: 100%; max-width: 720px; font-size: 14px; }
+.wire-table th, .wire-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; }
+
+@media (max-width: 720px) {
+  .body { grid-template-columns: 1fr; }
+  .sidebar { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }
+}

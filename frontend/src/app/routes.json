@@ -1,0 +1,18 @@
+[
+  { "path": "/welcome", "screen": "Landing", "file": "screens/learner/Landing.tsx", "role": "public", "scenario": "P1" },
+  { "path": "/sign-in", "screen": "SignIn", "file": "screens/learner/SignIn.tsx", "role": "public", "scenario": "P2" },
+  { "path": "/register", "screen": "Register", "file": "screens/learner/Register.tsx", "role": "public", "scenario": "P1" },
+  { "path": "/", "screen": "Dashboard", "file": "screens/learner/Dashboard.tsx", "role": "student", "nav": "nav.home", "scenario": "P7" },
+  { "path": "/course", "screen": "CourseMap", "file": "screens/learner/CourseMap.tsx", "role": "student", "nav": "nav.course", "scenario": "P3" },
+  { "path": "/lesson/:id", "screen": "Lesson", "file": "screens/learner/Lesson.tsx", "role": "student", "scenario": "P3" },
+  { "path": "/topics", "screen": "Catalog", "file": "screens/learner/Catalog.tsx", "role": "student", "nav": "nav.topics", "scenario": "P4" },
+  { "path": "/topic/:id", "screen": "TopicDetail", "file": "screens/learner/TopicDetail.tsx", "role": "student", "scenario": "P4" },
+  { "path": "/projects", "screen": "Projects", "file": "screens/learner/Projects.tsx", "role": "student", "nav": "nav.projects", "scenario": "P5" },
+  { "path": "/project/:id/assessment", "screen": "Assessment", "file": "screens/learner/Assessment.tsx", "role": "student", "scenario": "P5" },
+  { "path": "/competitions", "screen": "Competitions", "file": "screens/learner/Competitions.tsx", "role": "student", "nav": "nav.competitions", "scenario": "P6" },
+  { "path": "/profile", "screen": "Profile", "file": "screens/learner/Profile.tsx", "role": "student", "nav": "nav.profile", "scenario": "P7" },
+  { "path": "/admin/builder", "screen": "ProjectBuilder", "file": "screens/admin/ProjectBuilder.tsx", "role": "expert", "nav": "nav.builder", "scenario": "P9" },
+  { "path": "/admin/users", "screen": "Users", "file": "screens/admin/Users.tsx", "role": "admin", "nav": "nav.users", "scenario": "P8" },
+  { "path": "/admin/analytics", "screen": "Analytics", "file": "screens/admin/Analytics.tsx", "role": "admin", "nav": "nav.analytics", "scenario": "P10" },
+  { "path": "/admin/monitoring", "screen": "Monitoring", "file": "screens/admin/Monitoring.tsx", "role": "superadmin", "nav": "nav.monitoring", "scenario": "P11" }
+]

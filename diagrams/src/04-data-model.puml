@@ -1,0 +1,89 @@
+@startuml data-model
+!pragma layout smetana
+title WS Platform — Data Model (ER, planned schema)
+hide circle
+skinparam shadowing false
+
+' Planned schema (docs/07-architecture.md § 7.4). No database or migrations exist yet.
+entity users {
+  * id : int <<PK>>
+  --
+  username <<unique>>
+  full_name
+  email <<unique>>, email_verified_at
+  password_hash (bcrypt)
+  role : student|expert|admin|superadmin
+  is_active : bool
+  session_version
+  cohort
+  research_consent_at, research_consent_version
+  created_at, last_login_at
+}
+
+entity learning_progress {
+  * user_id : int <<PK,FK>>
+  * kind <<PK>>
+  * entry_id <<PK>>
+  --
+  payload : JSON
+  revision : int
+  updated_at
+}
+
+entity exercise_attempts {
+  * id : int <<PK>>
+  --
+  user_id : int <<FK>>
+  lesson_id, exercise_id
+  answer : JSON
+  correct : bool
+  revealed : bool
+  language
+  created_at
+}
+
+entity activity_events {
+  * id : int <<PK>>
+  --
+  user_id : int <<FK>>
+  session_id
+  kind : page_view|heartbeat|module_start|module_switch|submit
+  path, entry_id
+  duration_s : int
+  scores : JSON, weights : JSON
+  device, browser, os, language, screen
+  created_at
+}
+
+entity email_codes {
+  * id : int <<PK>>
+  --
+  email, purpose : register|reset
+  code_hash
+  payload : JSON
+  attempts : int
+  ip
+  created_at, expires_at, used_at
+}
+
+entity content_entries {
+  * id : int <<PK>>
+  --
+  kind : topics|projects
+  entry_id
+  payload : JSON
+  created_by, updated_at
+}
+
+entity uploaded_files {
+  * id : int <<PK>>
+  --
+  stored_name <<unique>>
+  original_name, content_type, size
+  uploaded_by, created_at
+}
+
+users ||--o{ learning_progress
+users ||--o{ exercise_attempts
+users ||--o{ activity_events
+@enduml

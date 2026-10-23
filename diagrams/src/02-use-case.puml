@@ -1,0 +1,62 @@
+@startuml use-case
+!pragma layout smetana
+left to right direction
+title WS Platform — Use Case Diagram (planned)
+skinparam shadowing false
+
+' Planned use cases. Roles as in docs/06-requirements.md and frontend/src/app/ (role switcher);
+' a higher role can do everything a lower one can
+actor Student as ST
+actor Expert as EX
+actor Admin as AD
+actor Superadmin as SA
+ST <|-- EX
+EX <|-- AD
+AD <|-- SA
+
+rectangle "WS Platform (planned)" {
+  usecase "Register with Gmail code\n(FR-18)" as UC1
+  usecase "Sign in / reset password\n(FR-01, FR-18)" as UC2
+  usecase "Study a C# lesson\n(FR-19)" as UC3
+  usecase "Answer an exercise\n(server check, FR-19)" as UC4
+  usecase "Reveal the answer\n(after 2 wrong attempts, FR-19)" as UC5
+  usecase "Browse and search topics\n(FR-03, FR-09)" as UC6
+  usecase "Open a competition module\n(FR-04)" as UC7
+  usecase "Self-assess a test project\nby criteria (FR-06, FR-07)" as UC8
+  usecase "See own progress\n(FR-20)" as UC9
+  usecase "Edit profile and\nresearch consent (FR-21)" as UC10
+  usecase "Record learning activity\n(FR-10, with consent)" as UC11
+  usecase "See own diagnostics\n(FR-12, FR-14)" as UC12
+  usecase "Build a test project\nwith a UI mock-up (FR-08)" as UC13
+  usecase "Upload task files\n(FR-23)" as UC14
+  usecase "See progress per lesson\n(FR-22)" as UC15
+  usecase "See risk list with reasons\n(FR-13, NFR-08)" as UC16
+  usecase "Manage content\n(topics, projects)" as UC17
+  usecase "Manage users and roles\n(FR-02)" as UC18
+  usecase "Export research data\n(FR-15)" as UC19
+  usecase "Monitor the system\n(FR-16)" as UC20
+}
+
+ST --> UC1
+ST --> UC2
+ST --> UC3
+ST --> UC4
+ST --> UC6
+ST --> UC7
+ST --> UC8
+ST --> UC9
+ST --> UC10
+ST --> UC12
+EX --> UC13
+EX --> UC16
+AD --> UC15
+AD --> UC17
+AD --> UC18
+AD --> UC19
+SA --> UC20
+
+UC5 ..> UC4 : <<extend>>
+UC4 ..> UC11 : <<include>>
+UC8 ..> UC11 : <<include>>
+UC13 ..> UC14 : <<include>>
+@enduml

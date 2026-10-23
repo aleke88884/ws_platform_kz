@@ -1,0 +1,40 @@
+@startuml diagnostics-sequence
+title Planned scenario — From learner activity to the research export and the risk list
+skinparam shadowing false
+
+' Planned scenario (docs/07-architecture.md § 7.5). Only the web client screens exist
+' today, as wireframes; the API, database and early_warning service are planned.
+
+actor Student
+participant "Web client" as W
+participant "API /course\n(planned)" as CRS
+participant "API /analytics\n(planned)" as API
+database "PostgreSQL\n(planned)" as DB
+participant "early_warning service\n(planned)" as EW
+actor Admin
+actor Expert
+
+Student -> W : opens a lesson, answers an exercise
+W -> CRS : POST /course/exercises/{id}/attempts
+CRS -> DB : insert exercise_attempts row
+CRS --> W : correct / wrong, can_reveal
+opt research consent given
+  W -> API : POST /analytics/events (batch,\nperiodically and on tab close)
+  API -> DB : check consent, insert activity_events
+end
+Admin -> W : Analytics → export
+W -> API : GET /analytics/export?format=csv
+API -> EW : build research export
+EW -> DB : attempts and events of consenting learners only
+EW --> API : CSV with HMAC pseudonyms
+API --> W : file download
+== After data collection and model training ==
+Expert -> W : open the risk list
+W -> API : GET /analytics/early-warning?rho=0.3
+API -> EW : analyse cohort at ρ
+EW -> DB : events and attempts up to ρ of the period
+EW -> EW : features, sequence patterns, clusters,\ntrained model → risk value and top-3 SHAP reasons
+EW --> API : ranked learners with reasons and actions
+API --> W : JSON
+W --> Expert : risk table with reasons and recommended action
+@enduml

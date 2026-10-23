@@ -1,0 +1,51 @@
+# 2026-10-23 12:31 commit f8d2399 node v22.22.0 npm 10.9.4 os Linux 6.18.44-fc-v153
+
+> ws-platform-frontend@0.1.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: ru, kk and en have the same keys
+ok 1 - ru, kk and en have the same keys
+  ---
+  duration_ms: 2.128915
+  type: 'test'
+  ...
+# Subtest: no translation is empty
+ok 2 - no translation is empty
+  ---
+  duration_ms: 0.462188
+  type: 'test'
+  ...
+# Subtest: paths are unique
+ok 3 - paths are unique
+  ---
+  duration_ms: 1.113299
+  type: 'test'
+  ...
+# Subtest: every route has a known role and an existing screen file
+ok 4 - every route has a known role and an existing screen file
+  ---
+  duration_ms: 0.586684
+  type: 'test'
+  ...
+# Subtest: every screen has a title and every menu item has a label
+ok 5 - every screen has a title and every menu item has a label
+  ---
+  duration_ms: 2.094886
+  type: 'test'
+  ...
+# Subtest: every prototype scenario P1–P11 has at least one screen
+ok 6 - every prototype scenario P1–P11 has at least one screen
+  ---
+  duration_ms: 0.510786
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 149.539793

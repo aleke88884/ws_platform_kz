@@ -1,0 +1,86 @@
+@startuml component
+!pragma layout smetana
+title WS Platform — Component Diagram (planned; web client exists as a wireframe starter)
+skinparam shadowing false
+
+' The web client package matches the existing frontend starter (frontend/src).
+' Everything outside it is planned (docs/07-architecture.md, backend/README.md).
+
+package "Web client (frontend/src: React 19, TypeScript, Vite) — starter exists" {
+  [app/\nApp, routes, roles] as APP
+  [screens/learner/\nLanding, SignIn, Register, Dashboard,\nCourseMap, Lesson, Catalog, TopicDetail,\nProjects, Assessment, Competitions, Profile] as LS
+  [screens/admin/\nUsers, ProjectBuilder, Analytics, Monitoring] as AS
+  [components/\nLayout, RoleSwitcher, LanguagePicker,\nwireframe primitives\n(+ activity tracker, planned)] as CMP
+  [i18n/\nru.json, kk.json, en.json] as I18N
+  [lib/api\n(stub of the planned REST client)] as API
+}
+
+node "Reverse proxy (planned)\nnginx (SPA) / Caddy (HTTPS)" as PX
+
+package "Backend API (planned: FastAPI)" {
+  package "api/routes (planned)" {
+    [auth, users] as R_AUTH
+    [course] as R_COURSE
+    [content, files] as R_CONTENT
+    [progress] as R_PROG
+    [analytics] as R_AN
+    [stats, health] as R_ST
+  }
+  package "services (planned)" {
+    [auth, users,\nemail_codes, mailer] as S_AUTH
+    [course\n(answer check, attempts)] as S_COURSE
+    [content, files] as S_CONTENT
+    [analytics\n(events with consent check,\nprogress per lesson)] as S_AN
+    [early_warning\nfeatures → sequence patterns → clusters\n→ trained model → risk + top-3 SHAP reasons;\npseudonymised export] as S_EW
+    [stats] as S_ST
+  }
+  [models/ (planned)\nusers, learning_progress, exercise_attempts,\nactivity_events, email_codes,\ncontent_entries, uploaded_files] as MOD
+  [core/ (planned)\nconfig, security, db, cache, migrations] as CORE
+}
+
+database "PostgreSQL 16 (planned)" as DB
+database "Redis 7 (planned, optional)" as RD
+folder "uploads volume (planned)" as UV
+folder "generated content JSON\n(planned content pipeline)" as CJ
+cloud "Gmail SMTP" as MAIL
+
+APP --> LS
+APP --> AS
+LS --> CMP
+AS --> CMP
+LS --> I18N
+AS --> I18N
+CMP --> I18N
+LS --> API
+AS --> API
+CMP --> API
+API ..> PX : HTTPS /api/v1 (REST, JSON) — planned
+
+PX --> R_AUTH
+PX --> R_COURSE
+PX --> R_CONTENT
+PX --> R_PROG
+PX --> R_AN
+PX --> R_ST
+
+R_AUTH --> S_AUTH
+R_COURSE --> S_COURSE
+R_CONTENT --> S_CONTENT
+R_PROG --> MOD
+R_AN --> S_AN
+R_AN --> S_EW
+R_ST --> S_ST
+
+S_CONTENT --> CJ
+S_CONTENT --> UV
+S_AUTH --> MAIL
+S_AUTH --> MOD
+S_COURSE --> MOD
+S_COURSE --> CJ
+S_AN --> MOD
+S_EW --> MOD
+S_ST --> MOD
+MOD --> DB
+CORE --> DB
+CORE ..> RD
+@enduml

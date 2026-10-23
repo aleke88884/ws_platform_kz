@@ -1,0 +1,38 @@
+@startuml system-context
+!pragma layout smetana
+title WS Platform — System Context (planned)
+skinparam rectangleBorderColor #333
+skinparam shadowing false
+
+' Planned architecture (docs/07-architecture.md). Only the web client exists today,
+' as a wireframe starter in frontend/. Every other box is planned.
+
+actor "Student\n(C# learner,\nWorldSkills trainee)" as ST
+actor "Expert\n(teacher / coach)" as EX
+actor "Admin" as AD
+actor "Superadmin" as SA
+
+rectangle "WS Platform (planned)\n(C# course, WorldSkills materials,\nlearning analytics, early warning)" as P #E3F2FD
+
+rectangle "Reverse proxy (planned)\n(Caddy HTTPS in production,\nnginx serves the SPA)" as PX #EEEEEE
+database "PostgreSQL 16 (planned)\n(SQLite in tests / dev)" as DB #EEEEEE
+database "Redis 7 (planned,\noptional cache)" as RD #EEEEEE
+folder "File storage (planned)\n(uploads volume)" as FS #EEEEEE
+rectangle "Gmail SMTP\n(registration and\nreset codes)" as MAIL #EEEEEE
+rectangle "Content build pipeline (planned)\n(version-controlled content files\n→ generated content JSON)" as CB #EEEEEE
+rectangle "Published WorldSkills / EuroSkills\nSkill 09 test projects\nand marking schemes" as WS #EEEEEE
+rectangle "OULAD dataset\n(offline evaluation, planned)" as OU #EEEEEE
+
+ST --> PX : studies lessons, answers exercises,\nself-assesses, edits profile and consent
+EX --> PX : builds test projects,\nsees risk list
+AD --> PX : users, content, analytics, export
+SA --> PX : monitoring, manages admins
+PX --> P : /api/v1 and static files
+P --> DB : users, progress, attempts,\nactivity events, content edits
+P ..> RD : cached content (works without it)
+P --> FS : task files ≤ 15 MB
+P --> MAIL : one-time codes
+WS --> CB : source documents
+CB --> P : generated content JSON
+OU ..> P : model evaluation (planned)
+@enduml
